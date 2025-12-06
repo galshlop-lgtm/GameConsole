@@ -1,4 +1,4 @@
-﻿using GameConsole.Models;
+using GameConsole.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,16 +21,16 @@ namespace GameConsole.Data
             users.Add(newus);
             return newus;
         }
-        public static User Login(string name, string password)
+        public static User Login(string username, string password)
         {
-            return users.FirstOrDefault(u => u.Username == name && u.Password == password);
+             return users.FirstOrDefault(u => u.Username == username && u.Password == password); 
         }
         public static void Update(User u)
         {
-            if (users.Any(user => user == u))
+            if (users.Any(user => user.Username == u.Username))
             {
-                users.Where(user => user == u).FirstOrDefault().Password = null;
-                users.Where(user => user == u).FirstOrDefault().Name = null;
+                users.Where(user => user.Username == u.Username).ToList().FirstOrDefault().Password = u.Password;
+                users.Where(user => user.Username == u.Username).ToList().FirstOrDefault().Name = u.Name;
             }
             else
                 throw new InvalidOperationException("no such user exists");
