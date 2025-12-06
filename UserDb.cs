@@ -25,16 +25,17 @@ namespace GameConsole.Data
         {
              return users.FirstOrDefault(u => u.Username == username && u.Password == password); 
         }
-        public static void Update(User u)
-        {
-            if (users.Any(user => user.Username == u.Username))
-            {
-                users.Where(user => user.Username == u.Username).ToList().FirstOrDefault().Password = u.Password;
-                users.Where(user => user.Username == u.Username).ToList().FirstOrDefault().Name = u.Name;
-            }
-            else
-                throw new InvalidOperationException("no such user exists");
-        }
+       public static void Update(User u)
+{
+  
+    var existingUser = users.FirstOrDefault(user => user.Username == u.Username);
 
+    if (existingUser == null)
+        throw new InvalidOperationException("no such user exists");
+
+        existingUser.Password = u.Password;
+        existingUser.Name = u.Name;
+}
     }
 }
+
