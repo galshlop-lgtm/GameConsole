@@ -1,43 +1,61 @@
-﻿using GameConsole.Base;
+using GameConsole.Base;
+using GameConsole.Data;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameConsole.Pages
 {
-<<<<<<< HEAD
-    public class LoginScreen : Screen
-    {
-        public LoginScreen() : base("LOGIN SCREEN")
-        {
-
-        }
-
-        public override void Show()
-        {
-            base.Show();
-
-            CenterText("Welcome back");
-            Screen next = new GameMenu();
-            next.Show();
-
-            Console.ReadKey();
-        }
-    }
-=======
 	internal class LoginScreen : Screen
 	{
 		public LoginScreen() : base("Login Page")
 		{
 		}
+
 		public override void Show()
 		{
-			base.Show();
-			CenterText("Enter Login Info");
-			Console.ReadKey();
+			while (true)
+			{
+				base.Show();
+				CenterText("1) Register");
+				CenterText("2) Login");
+				CenterText("3) Back");
+				Console.Write("Choose (1-3): ");
+				var choice = Console.ReadLine()?.Trim();
+
+				if (choice == "1")
+				{
+					var reg = new RegisterScreen();
+					reg.Show();
+					continue;
+				}
+				else if (choice == "2")
+				{
+					Console.Write("Username: ");
+					var username = Console.ReadLine() ?? string.Empty;
+					Console.Write("Password: ");
+					var password = Console.ReadLine() ?? string.Empty;
+
+					var user = UserDb.Login(username.Trim(), password);
+					if (user != null)
+					{
+						CenterText("Login successful. Press any key to continue.");
+						Console.ReadKey();
+						var next = new GameMenu();
+						next.Show();
+						return;
+					}
+					else
+					{
+						CenterText("Invalid username or password. Press any key to try again.");
+						Console.ReadKey();
+						continue;
+					}
+				}
+				else if (choice == "3")
+				{
+					// go back / exit this screen
+					return;
+				}
+			}
 		}
 	}
->>>>>>> 689c9d49b1b5e0acc8df0cb55b9216d7101284ba
 }
